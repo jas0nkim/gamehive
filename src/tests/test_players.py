@@ -1,8 +1,8 @@
 class TestPlayerCRUD:
-    def test_get_players_from_empty_table(self, client):
+    def test_get_players_from_initial_table(self, client):
         """ API endpoint
                 /player [GET]
-            Get players from empty table. Number of players should be 0.
+            Get players from initial table. Number of players should be 15.
         """
         resp = client.get('/player')
         json_data = resp.get_json()
@@ -13,7 +13,7 @@ class TestPlayerCRUD:
     def test_add_players(self, client):
         """ API endpoint
                 /player [POST]
-            Add 3 players. Number of players should be 3.
+            Add 3 players. Number of players should be 18.
         """
         players = [
             {'nickname': 'test01', 'email': 'test01@mail.com',},
@@ -130,3 +130,79 @@ class TestPlayerCRUD:
         json_data = resp.get_json()
         assert resp.status_code == 200
         assert json_data['success'] == 'true'
+
+class TestPlayerItem:
+    def test_add_item_to_player(self, client):
+        """ API endpoint
+                /player/<nickname>/add-item [POST]
+            add an item to a player. and test add same item again to the same player (an error should be given).
+        """
+        item = {'name': 'oitem01'}
+        resp = client.post('/player/oplayer01/add-item', json=item)
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert len(json_data['items']) == 1
+        assert json_data['items'][0]['name'] == 'oitem01'
+        resp = client.post('/player/oplayer01/add-item', json=item)
+        json_data = resp.get_json()
+        assert resp.status_code == 400
+        assert json_data['success'] == 'false'
+        assert json_data['error_message'] == 'Item already exists to the player.'
+
+    def test_remove_item_from_player_with_post(self, client):
+        """ API endpoint
+                /player/<nickname>/remove-item/<itemname> [POST, DELETE]
+            remove an item from a player with POST method
+        """
+        resp = client.post('/player/oplayer10/remove-item/oitem01')
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert len(json_data['items']) == 4
+        resp = client.post('/player/oplayer10/remove-item/oitem01')
+        json_data = resp.get_json()
+        assert resp.status_code == 400
+        assert json_data['success'] == 'false'
+        assert json_data['error_message'] == 'Player does not have the item.'
+
+    def test_remove_item_from_player_with_delete(self, client):
+        """ API endpoint
+                /player/<nickname>/remove-item/<itemname> [POST, DELETE]
+            remove an item from a player with DELETE
+        """
+        resp = client.delete('/player/oplayer10/remove-item/oitem02')
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert len(json_data['items']) == 3
+
+class TestPlayerGuild:
+    def test_join_guild(self, client):
+        """ API endpoint
+                /player/<nickname>/join-guild [POST]
+            join a player into a guild
+        """
+        guild = {'name': 'oguild01'}
+        resp = client.post('/player/oplayer01/join-guild', json=guild)
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert json_data['player']['guild_id'] is not None
+        guild = {'name': 'oguild02'}
+        resp = client.post('/player/oplayer01/join-guild', json=guild)
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert json_data['player']['guild_id'] is not None
+
+    def test_leave_guild(self, client):
+        """ API endpoint
+                /player/<nickname>/leave-guild [POST]
+            leave from a joined guild
+        """
+        resp = client.post('/player/oplayer01/leave-guild')
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert json_data['player']['guild_id'] is None

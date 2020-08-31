@@ -5,6 +5,11 @@ from sqlalchemy.dialects.postgresql import UUID, VARCHAR, SMALLINT
 
 db = SQLAlchemy()
 
+player_items = db.Table('player_items',
+    db.Column('player_id', UUID(as_uuid = True), db.ForeignKey('players.id'), primary_key=True),
+    db.Column('item_id', UUID(as_uuid = True), db.ForeignKey('items.id'), primary_key=True)
+)
+
 class Player(db.Model):
     """ database table 'players'
         columns:
@@ -21,6 +26,8 @@ class Player(db.Model):
     email = db.Column(VARCHAR(length = 150), unique = True, nullable = False)
     skill_point = db.Column(SMALLINT(), nullable = False, default = 0)
     guild_id = db.Column(UUID(as_uuid = True), db.ForeignKey('guilds.id'), nullable = True)
+    items = db.relationship('Item', secondary = player_items, lazy = 'subquery',
+                            backref = db.backref('players', lazy = True))
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -56,8 +63,3 @@ class Item(db.Model):
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-player_items = db.Table('player_items',
-    db.Column('player_id', UUID, db.ForeignKey('players.id'), primary_key=True),
-    db.Column('item_id', UUID, db.ForeignKey('items.id'), primary_key=True)
-)

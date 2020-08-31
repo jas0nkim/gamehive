@@ -1,8 +1,8 @@
 class TestGuildCRUD:
-    def test_get_guilds_from_empty_table(self, client):
+    def test_get_guilds_from_initial_table(self, client):
         """ API endpoint
                 /guild [GET]
-            Get guilds from empty table. Number of guilds should be 0.
+            Get guilds from initial table. Number of guilds should be 7.
         """
         resp = client.get('/guild')
         json_data = resp.get_json()
@@ -13,7 +13,7 @@ class TestGuildCRUD:
     def test_add_guilds(self, client):
         """ API endpoint
                 /guild [POST]
-            Add 4 guilds. Number of guilds should be 4.
+            Add 4 guilds. Number of guilds should be 11.
         """
         guilds = [
             {'name': 'testguild01'},

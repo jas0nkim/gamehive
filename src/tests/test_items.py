@@ -1,8 +1,8 @@
 class TestItemCRUD:
-    def test_get_items_from_empty_table(self, client):
+    def test_get_items_from_initial_table(self, client):
         """ API endpoint
                 /item [GET]
-            Get items from empty table. Number of items should be 0.
+            Get items from initial table. Number of items should be 10.
         """
         resp = client.get('/item')
         json_data = resp.get_json()
@@ -13,7 +13,7 @@ class TestItemCRUD:
     def test_add_items(self, client):
         """ API endpoint
                 /item [POST]
-            Add 4 items. Number of items should be 4.
+            Add 4 items. Number of items should be 14.
         """
         items = [
             {'name': 'testitem01', 'skill_point': 10},
