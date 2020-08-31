@@ -1,3 +1,10 @@
+## Production level quality
+
+- Structured python package
+- Nginx + Gunicon web server
+- Hide sensitive information (ie. database access)
+- Persist production data
+
 ## Database
 
 ```
@@ -29,9 +36,11 @@ Type "help", "copyright", "credits" or "license" for more information.
     1. POST or DELETE: delete player
 /player/<nickname>/add-item
     1. POST: add an item to a player
-/player/<nickname>/join
+/player/<nickname>/remove-item/<itemname>
+    1. POST or DELETE: remove an item from a player
+/player/<nickname>/join-guild
     1. POST: join a player into a guild
-/player/<nickname>/leave
+/player/<nickname>/leave-guild
     1. POST: leave from a joined guild
 ```
 
@@ -48,10 +57,10 @@ Type "help", "copyright", "credits" or "license" for more information.
     1. POST or DELETE: delete guild
 /guild/<name>/add-player
     1. POST: add player
-/guild/<name>/remove-player
+/guild/<name>/remove-player/<nickname>
     1. POST: remove player
 /guild/<name>/points
-    1. GET: calculate the total number of skill points in a guild
+    1. GET: get the total number of skill points in a guild
 ```
 
 ### Item

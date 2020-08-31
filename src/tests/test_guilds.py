@@ -118,3 +118,56 @@ class TestGuildCRUD:
         json_data = resp.get_json()
         assert resp.status_code == 200
         assert json_data['success'] == 'true'
+
+class TestGuildPlayer:
+    def test_add_player(self, client):
+        """ API endpoint
+                /guild/<name>/add-player [POST]
+            add player
+        """
+        player = {'nickname': 'oplayer02'}
+        resp = client.post('/guild/oguild01/add-player', json=player)
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert len(json_data['players']) == 1
+        player = {'nickname': 'oplayer03'}
+        resp = client.post('/guild/oguild01/add-player', json=player)
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert len(json_data['players']) == 2
+
+    def test_remove_player(self, client):
+        """ API endpoint
+                /guild/<name>/remove-player/<nickname> [DELETE, POST]
+            leave from a joined guild
+        """
+        resp = client.post('/guild/oguild01/remove-player/oplayer02')
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert len(json_data['players']) == 1
+        resp = client.post('/guild/oguild01/remove-player/oplayer10')
+        json_data = resp.get_json()
+        assert resp.status_code == 400
+        assert json_data['success'] == 'false'
+        assert json_data['error_message'] == 'Player not a member.'
+        resp = client.delete('/guild/oguild01/remove-player/oplayer03')
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert len(json_data['players']) == 0
+
+class TestGuildSkillPoint:
+    def test_guild_skill_point(self, client):
+        """ API endpoint
+                /guild/<name>/points [GET]
+            get the total number of skill points in a guild
+        """
+        resp = client.get('/guild/oguild05/points')
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert json_data['total_points'] == 1610
+        pass
