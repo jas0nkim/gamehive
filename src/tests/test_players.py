@@ -8,7 +8,7 @@ class TestPlayerCRUD:
         json_data = resp.get_json()
         assert resp.status_code == 200
         assert json_data['success'] == 'true'
-        assert len(json_data['players']) == 0
+        assert len(json_data['players']) == 15
 
     def test_add_players(self, client):
         """ API endpoint
@@ -29,7 +29,7 @@ class TestPlayerCRUD:
         json_data = resp.get_json()
         assert resp.status_code == 200
         assert json_data['success'] == 'true'
-        assert len(json_data['players']) == 3
+        assert len(json_data['players']) == 18
 
     def test_add_players_nickname_already_exists(self, client):
         """ API endpoint

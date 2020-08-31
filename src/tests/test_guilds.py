@@ -8,7 +8,7 @@ class TestGuildCRUD:
         json_data = resp.get_json()
         assert resp.status_code == 200
         assert json_data['success'] == 'true'
-        assert len(json_data['guilds']) == 0
+        assert len(json_data['guilds']) == 7
 
     def test_add_guilds(self, client):
         """ API endpoint
@@ -30,7 +30,7 @@ class TestGuildCRUD:
         json_data = resp.get_json()
         assert resp.status_code == 200
         assert json_data['success'] == 'true'
-        assert len(json_data['guilds']) == 4
+        assert len(json_data['guilds']) == 11
 
     def test_add_guilds_name_already_exists(self, client):
         """ API endpoint

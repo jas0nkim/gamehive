@@ -8,7 +8,7 @@ class TestItemCRUD:
         json_data = resp.get_json()
         assert resp.status_code == 200
         assert json_data['success'] == 'true'
-        assert len(json_data['items']) == 0
+        assert len(json_data['items']) == 10
 
     def test_add_items(self, client):
         """ API endpoint
@@ -30,7 +30,7 @@ class TestItemCRUD:
         json_data = resp.get_json()
         assert resp.status_code == 200
         assert json_data['success'] == 'true'
-        assert len(json_data['items']) == 4
+        assert len(json_data['items']) == 14
 
     def test_add_items_name_already_exists(self, client):
         """ API endpoint
