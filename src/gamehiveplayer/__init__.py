@@ -10,7 +10,11 @@ def create_app(config_class=DefaultConfig):
 
     from gamehiveplayer.main.routes import main
     from gamehiveplayer.players.routes import players
+    from gamehiveplayer.guilds.routes import guilds
+    from gamehiveplayer.items.routes import items
     app.register_blueprint(main)
     app.register_blueprint(players)
+    app.register_blueprint(guilds)
+    app.register_blueprint(items)
 
     return app

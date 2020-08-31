@@ -1,24 +1,23 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy.exc import IntegrityError
-from gamehiveplayer.models import Player, db
+from gamehiveplayer.models import Item, db
 
-players = Blueprint('players', __name__)
+items = Blueprint('items', __name__)
 
-
-@players.route('/player', methods=['GET', 'POST'])
-def list_or_create_player():
+@items.route('/item', methods=['GET', 'POST'])
+def list_or_create_item():
     """ GET method:
-            list players
+            list items
             return json
                 eg.
                 {
                     'success': 'true',
-                    'players': [
+                    'items': [
                         ...
                     ]
                 }
         POST method:
-            create new player
+            create new item
             return json
                 eg.
                 {
@@ -26,13 +25,13 @@ def list_or_create_player():
                 }
     """
     if request.method == 'GET':
-        return jsonify(success='true', players=[p.as_dict() for p in Player.query.all()]), 200
+        return jsonify(success='true', items=[g.as_dict() for g in Item.query.all()]), 200
     elif request.method == 'POST':
         req_data = request.get_json()
         if not req_data:
             return jsonify(success='false', error_message='mimetype does not indicate JSON'), 404
-        player = Player(nickname=req_data.get('nickname'), email=req_data.get('email'))
-        db.session.add(player)
+        item = Item(name=req_data.get('name'), skill_point=req_data.get('skill_point'))
+        db.session.add(item)
         try:
             db.session.commit()
         except IntegrityError as e:
@@ -42,21 +41,21 @@ def list_or_create_player():
     else:
         return jsonify(success='false', error_message='only HTTP POST method allowed.'), 405
 
-@players.route('/player/<nickname>', methods=['GET', 'POST', 'PUT'])
-def update_player(nickname):
+@items.route('/item/<name>', methods=['GET', 'POST', 'PUT'])
+def update_item(name):
     """ GET method:
-            show player
+            show item
             return json
                 eg.
                 {
                     'success': 'true',
-                    'player': {
-                        'nickname': 'test02',
-                        'email': 'test02@mail.com'
+                    'item': {
+                        'name': 'testitem02',
+                        'skill_point': 20
                     }
                 }
         POST or PUT method:
-            update existing player
+            update existing item
             return json
                 eg.
                 {
@@ -64,19 +63,19 @@ def update_player(nickname):
                 }
     """
     if request.method == 'GET':
-        p = Player.query.filter_by(nickname=nickname).first()
-        if p is None:
+        i = Item.query.filter_by(name=name).first()
+        if i is None:
             return jsonify(success='false', error_message='Not found'), 404
         else:
-            return jsonify(success='true', player=p.as_dict()), 200
+            return jsonify(success='true', item=i.as_dict()), 200
     elif request.method in ['POST', 'PUT']:
-        p = Player.query.filter_by(nickname=nickname).first()
-        if p is None:
+        i = Item.query.filter_by(name=name).first()
+        if i is None:
             return jsonify(success='false', error_message='Not found'), 404
         else:
             req_data = request.get_json()
-            p.nickname = req_data.get('nickname')
-            p.email = req_data.get('email')
+            i.name = req_data.get('name')
+            i.skill_point = req_data.get('skill_point')
             try:
                 db.session.commit()
             except IntegrityError as e:
@@ -86,10 +85,10 @@ def update_player(nickname):
     else:
         return jsonify(success='false', error_message='only HTTP GET/POST/PUT method allowed.'), 405
 
-@players.route('/player/<nickname>/delete', methods=['DELETE', 'POST'])
-def delete_player(nickname):
+@items.route('/item/<name>/delete', methods=['DELETE', 'POST'])
+def delete_item(name):
     """ DELETE or POST method:
-            delete a player
+            delete a item
             return json
                 eg.
                 {
@@ -97,11 +96,11 @@ def delete_player(nickname):
                 }
     """
     if request.method in ['DELETE', 'POST']:
-        p = Player.query.filter_by(nickname=nickname).first()
-        if p is None:
+        i = Item.query.filter_by(name=name).first()
+        if i is None:
             return jsonify(success='false', error_message='Not found'), 404
         else:
-            db.session.delete(p)
+            db.session.delete(i)
             try:
                 db.session.commit()
             except IntegrityError as e:
@@ -110,4 +109,3 @@ def delete_player(nickname):
                 return jsonify(success='true'), 200
     else:
         return jsonify(success='false', error_message='only HTTP DELETE/POST method allowed.'), 405
-

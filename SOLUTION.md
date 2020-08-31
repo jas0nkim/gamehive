@@ -58,13 +58,13 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 ```
 /item
-    1. GET: list guilds
-    2. POST: create new guild
+    1. GET: list items
+    2. POST: create new item
 /item/<name>
-    1. GET: show guild
-    2. POST or PUT: update existing guild
+    1. GET: show item
+    2. POST or PUT: update existing item
 /item/<name>/delete
-    1. POST or DELETE: delete guild
+    1. POST or DELETE: delete item
 ```
 
 ## Test & Coverage
