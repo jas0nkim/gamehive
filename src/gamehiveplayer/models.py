@@ -22,6 +22,9 @@ class Player(db.Model):
     skill_point = db.Column(SMALLINT(), nullable = False, default = 0)
     guild_id = db.Column(UUID(as_uuid = True), db.ForeignKey('guilds.id'), nullable = True)
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
 class Guild(db.Model):
     """ database table 'guilds'
         columns:
@@ -36,6 +39,9 @@ class Guild(db.Model):
     country_code = db.Column(VARCHAR(length = 3), nullable = True)
     players = db.relationship('Player', backref = 'guild', lazy = True)
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
 class Item(db.Model):
     """ database table 'items'
         columns:
@@ -47,6 +53,9 @@ class Item(db.Model):
     id = db.Column(UUID(as_uuid = True), primary_key = True, default = uuid.uuid4, unique = True, nullable = False)
     name = db.Column(VARCHAR(length = 50), unique = True, nullable = False)
     skill_point = db.Column(SMALLINT(), default = 0, nullable = False)
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 player_items = db.Table('player_items',
     db.Column('player_id', UUID, db.ForeignKey('players.id'), primary_key=True),

@@ -22,16 +22,16 @@ Type "help", "copyright", "credits" or "license" for more information.
 /player
     1. GET: list players
     2. POST: create new player
-/player/<UUID>
+/player/<nickname>
     1. GET: show player
     2. POST or PUT: update existing player
-/player/<UUID>/delete
+/player/<nickname>/delete
     1. POST or DELETE: delete player
-/player/<UUID>/add-item
+/player/<nickname>/add-item
     1. POST: add an item to a player
-/player/<UUID>/join
+/player/<nickname>/join
     1. POST: join a player into a guild
-/player/<UUID>/leave
+/player/<nickname>/leave
     1. POST: leave from a joined guild
 ```
 
@@ -41,16 +41,16 @@ Type "help", "copyright", "credits" or "license" for more information.
 /guild
     1. GET: list guilds
     2. POST: create new guild
-/guild/<UUID>
+/guild/<name>
     1. GET: show guild. show joined players
     2. POST or PUT: update existing guild
-/guild/<UUID>/delete
+/guild/<name>/delete
     1. POST or DELETE: delete guild
-/guild/<UUID>/add-player
+/guild/<name>/add-player
     1. POST: add player
-/guild/<UUID>/remove-player
+/guild/<name>/remove-player
     1. POST: remove player
-/guild/<UUID>/points
+/guild/<name>/points
     1. GET: calculate the total number of skill points in a guild
 ```
 
@@ -60,10 +60,10 @@ Type "help", "copyright", "credits" or "license" for more information.
 /item
     1. GET: list guilds
     2. POST: create new guild
-/item/<UUID>
+/item/<name>
     1. GET: show guild
     2. POST or PUT: update existing guild
-/item/<UUID>/delete
+/item/<name>/delete
     1. POST or DELETE: delete guild
 ```
 
