@@ -1,12 +1,19 @@
-## Production Level Quality
+## Production level quality
 
 - Structured python package
 - Nginx + Gunicon web server
 - Hide sensitive information (ie. database access)
 - Persist production data
 
-## Build Database Tables
+## Build servers with Docker Compose
 
+```
+$ docker-compose up -d
+```
+
+## Build database tables
+
+WARNING: run following will remove existing data in the tables - players, guilds, items, player_items
 ```
 $ docker exec -ti gamehive_appserver_1 python
 Python 3.6.12 (default, Aug 18 2020, 04:36:04)
@@ -16,9 +23,9 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> init_db()
 ```
 
-## API Endpoints
+## API endpoints
 
-### Player
+### Players
 ```
 /player
     1. GET: list players
@@ -38,7 +45,7 @@ Type "help", "copyright", "credits" or "license" for more information.
     1. POST: leave from a joined guild
 ```
 
-### Guild
+### Guilds
 ```
 /guild
     1. GET: list guilds
@@ -56,7 +63,7 @@ Type "help", "copyright", "credits" or "license" for more information.
     1. GET: get the total number of skill points in a guild
 ```
 
-### Item
+### Items
 ```
 /item
     1. GET: list items
@@ -68,9 +75,8 @@ Type "help", "copyright", "credits" or "license" for more information.
     1. POST or DELETE: delete item
 ```
 
-## Test & Coverage
+## Run tests & coverage
 
 ```
-$ docker exec -ti gamehive_appserver_1 /bin/bash
-root@3f2783ae7350:/src# pytest --cov=gamehiveplayer tests
+$ docker exec -ti gamehive_appserver_1 pytest --cov=gamehiveplayer tests
 ```
