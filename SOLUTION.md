@@ -75,8 +75,19 @@ Type "help", "copyright", "credits" or "license" for more information.
     1. POST or DELETE: delete item
 ```
 
+## Access API
+
+The API can be accessed via port `9999`. You may change it from `services` > `nginx` > `ports` in `docker-compose.yml`
+
 ## Run tests & coverage
 
 ```
 $ docker exec -ti gamehive_appserver_1 pytest --cov=gamehiveplayer tests
+```
+
+## Hide sensitive information
+
+Remove `.config` directory from the git repository by adding line in `.gitignore`
+```
+.config/
 ```
