@@ -11,6 +11,11 @@ def calculate_total_skill_points(guild):
     
     sql_total_player_skill_points = """SELECT SUM(skill_point) from players WHERE guild_id = :guildid"""
     sql_total_item_skill_points = """SELECT SUM(skill_point) from (SELECT distinct i.id, i.skill_point FROM players as p LEFT JOIN player_items as pi on pi.player_id = p.id LEFT JOIN items as i on i.id = pi.item_id WHERE p.guild_id = :guildid) as foo"""
-    result_1 = db.engine.execute(text(sql_total_player_skill_points), guildid=guild.id)
-    result_2 = db.engine.execute(text(sql_total_item_skill_points), guildid=guild.id)
-    return result_1.fetchone()[0] + result_2.fetchone()[0]
+    
+    total_player_skill_points = db.engine.execute(text(sql_total_player_skill_points), guildid=guild.id).fetchone()[0]
+    total_item_skill_points = db.engine.execute(text(sql_total_item_skill_points), guildid=guild.id).fetchone()[0]
+    if total_player_skill_points is None:
+        total_player_skill_points = 0
+    if total_item_skill_points is None:
+        total_item_skill_points = 0
+    return total_player_skill_points + total_item_skill_points

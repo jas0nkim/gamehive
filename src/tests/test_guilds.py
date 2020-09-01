@@ -160,7 +160,7 @@ class TestGuildPlayer:
         assert len(json_data['players']) == 0
 
 class TestGuildSkillPoint:
-    def test_guild_skill_point(self, client):
+    def test_guild_skill_point_having_players_with_items(self, client):
         """ API endpoint
                 /guild/<name>/points [GET]
             get the total number of skill points in a guild
@@ -170,4 +170,25 @@ class TestGuildSkillPoint:
         assert resp.status_code == 200
         assert json_data['success'] == 'true'
         assert json_data['total_points'] == 1610
-        pass
+
+    def test_guild_skill_point_having_players_with_no_items(self, client):
+        """ API endpoint
+                /guild/<name>/points [GET]
+            get the total number of skill points in a guild
+        """
+        resp = client.get('/guild/oguild04/points')
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert json_data['total_points'] == 300
+
+    def test_guild_skill_point_having_no_players(self, client):
+        """ API endpoint
+                /guild/<name>/points [GET]
+            get the total number of skill points in a guild
+        """
+        resp = client.get('/guild/oguild03/points')
+        json_data = resp.get_json()
+        assert resp.status_code == 200
+        assert json_data['success'] == 'true'
+        assert json_data['total_points'] == 0

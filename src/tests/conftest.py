@@ -75,7 +75,7 @@ def insert_test_data():
             f"""INSERT INTO players(id, nickname, email, skill_point) VALUES('{uu_ids["oplayer03"]}', 'oplayer03', 'oplayer03@mail.com', 200)""",
             f"""INSERT INTO players(id, nickname, email, skill_point) VALUES('{uu_ids["oplayer04"]}', 'oplayer04', 'oplayer04@mail.com', 100)""",
             f"""INSERT INTO players(id, nickname, email, skill_point) VALUES('{uu_ids["oplayer05"]}', 'oplayer05', 'oplayer05@mail.com', 100)""",
-            f"""INSERT INTO players(id, nickname, email, skill_point) VALUES('{uu_ids["oplayer06"]}', 'oplayer06', 'oplayer06@mail.com', 300)""",
+            f"""INSERT INTO players(id, nickname, email, skill_point, guild_id) VALUES('{uu_ids["oplayer06"]}', 'oplayer06', 'oplayer06@mail.com', 300, '{uu_ids["oguild04"]}')""",
             f"""INSERT INTO players(id, nickname, email, skill_point) VALUES('{uu_ids["oplayer07"]}', 'oplayer07', 'oplayer07@mail.com', 140)""",
             f"""INSERT INTO players(id, nickname, email, skill_point) VALUES('{uu_ids["oplayer08"]}', 'oplayer08', 'oplayer08@mail.com', 100)""",
             f"""INSERT INTO players(id, nickname, email, skill_point) VALUES('{uu_ids["oplayer09"]}', 'oplayer09', 'oplayer09@mail.com', 180)""",
