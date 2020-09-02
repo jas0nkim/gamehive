@@ -4,6 +4,7 @@ from gamehiveplayer.configs import DefaultConfig
 def create_app(config_class=DefaultConfig):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.url_map.strict_slashes = False
 
     from gamehiveplayer.models import db
     db.init_app(app)
