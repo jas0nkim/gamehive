@@ -1,7 +1,7 @@
 ## Production level quality
 
 - Structured python package
-- Nginx + Gunicon web server
+- Nginx + Gunicorn web server
 - Hide sensitive information (ie. database access)
 - Persist production data
 
@@ -22,6 +22,10 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> from app import init_db
 >>> init_db()
 ```
+
+## Access API
+
+The API can be accessed via port `9999`. You may change it from `services` > `nginx` > `ports` in `docker-compose.yml`
 
 ## API endpoints
 
@@ -74,10 +78,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 /item/<name>/delete
     1. POST or DELETE: delete item
 ```
-
-## Access API
-
-The API can be accessed via port `9999`. You may change it from `services` > `nginx` > `ports` in `docker-compose.yml`
 
 ## Run tests & coverage
 
